@@ -1,0 +1,523 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>צור קשר - שירה מזרחי</title>
+  <meta name="description" content="צור קשר - שירה מזרחי provides professional יופי וקוסמטיקה services. Specializing in שירה מזרחי.">
+  <meta name="keywords" content="שירה מזרחי, מאפרת לאירועים לנשים דתיות, איפור ערב צנוע, איפור פורים יצירתי לנשים">
+  <meta name="robots" content="index, follow">
+  
+  <meta property="og:title" content="צור קשר - שירה מזרחי">
+  <meta property="og:description" content="צור קשר - שירה מזרחי provides professional יופי וקוסמטיקה services. Specializing in שירה מזרחי.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="צור קשר - שירה מזרחי">
+  <meta name="twitter:description" content="צור קשר - שירה מזרחי provides professional יופי וקוסמטיקה services. Specializing in שירה מזרחי.">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+<!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'df56048e-6dfc-4ba8-9edd-0cde6d59bdec',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: #333 !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: 44px !important; background: transparent !important; border: none !important; cursor: pointer !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+</head>
+<body>
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+  
+  <button class="phone-header-btn" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+  
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/logo.webp" alt="שירה מזרחי" class="logo" />
+      </a>
+    </div>
+    
+    <ul class="nav-menu" id="navMenu"><li><a href="/services">שירותים</a></li><li><a href="/about">אודות</a></li></ul>
+    
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+  
+  <main>
+    <section class="contact-intro-section" data-layout-spec="צור קשר-intro">
+  <div class="contact-intro-container">
+    <div class="contact-intro-header">
+      <h1>צרי קשר</h1>
+      <p>שמחה לענות על כל שאלה, לתאם פגישת ייעוץ או לבדוק זמינות לאירוע שלך. בחרי את הדרך הנוחה לך ביותר ליצירת קשר.</p>
+    </div>
+
+    <div class="contact-intro-cards">
+      <div class="contact-intro-card">
+        <div class="contact-intro-card-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 12C8 10.3431 9.34315 9 11 9H37C38.6569 9 40 10.3431 40 12V36C40 37.6569 38.6569 39 37 39H11C9.34315 39 8 37.6569 8 36V12Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M8 12L24 26L40 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
+        <h3>שליחת הודעה</h3>
+        <p>מלאי את הטופס ואחזור אליך בהקדם עם כל הפרטים שאת צריכה.</p>
+        <a href="#contact-form" class="btn-primary btn-pill">שלחי הודעה</a>
+      </div>
+
+      <div class="contact-intro-card">
+        <div class="contact-intro-card-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.5 8C13.1193 8 12 9.11929 12 10.5V13.5C12 14.8807 13.1193 16 14.5 16H17.5C18.8807 16 20 14.8807 20 13.5V10.5C20 9.11929 18.8807 8 17.5 8H14.5Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M20 11H28C32.4183 11 36 14.5817 36 19V28C36 32.4183 32.4183 36 28 36H19C14.5817 36 11 32.4183 11 28V20" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M28 26C29.1046 26 30 25.1046 30 24C30 22.8954 29.1046 22 28 22C26.8954 22 26 22.8954 26 24C26 25.1046 26.8954 26 28 26Z" fill="currentColor"></path>
+          </svg>
+        </div>
+        <h3>שיחת טלפון</h3>
+        <p>צלצלי אליי ונדבר על האירוע, הסגנון שמתאים לך והמראה המושלם שאת חולמת עליו.</p>
+        <a href="tel:[business_phone]" class="btn-primary btn-pill">התקשרי עכשיו</a>
+      </div>
+
+      <div class="contact-intro-card">
+        <div class="contact-intro-card-icon">
+          <svg data-element-type="icon" data-icon-type="svg" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M24 40C32.8366 40 40 32.8366 40 24C40 15.1634 32.8366 8 24 8C15.1634 8 8 15.1634 8 24C8 26.7689 8.69238 29.3795 9.91016 31.6543L8.5 39.5L16.3457 38.0898C18.6205 39.3076 21.2311 40 24 40Z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M18 21C18 21 19 19 21 19C23 19 24 20.5 24 22C24 24 22 25 21 26C20 27 19 28 19 29.5V30" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <circle cx="19" cy="33" r="1" fill="currentColor"></circle>
+            <path d="M27 23L31 27M31 23L27 27" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"></path>
+          </svg>
+        </div>
+        <h3>וואטסאפ</h3>
+        <p>שלחי לי הודעה בוואטסאפ ונתאם את כל הפרטים בצורה הכי נוחה ומהירה.</p>
+        <a href="https://wa.me/[whatsapp_handle]" target="_blank" rel="noopener noreferrer" class="btn-primary btn-pill">שלחי וואטסאפ</a>
+      </div>
+    </div>
+
+    <div class="contact-intro-image-wrapper">
+      <img data-placeholder="contact-intro-image-1" data-context="A serene beauty studio interior with soft natural lighting, elegant makeup brushes arranged on a pristine white marble counter, delicate rose gold accents, professional lighting setup, and a comfortable styling chair. The atmosphere is calm, organized, and luxurious, reflecting trust and professionalism for a religious and general female clientele. Warm beige and rose tones dominate the color palette." width="1200" height="400" src="/assets/site-contact-intro-image-1.webp" alt="סטודיו איפור מעוצב ומסודר של שירה מזרחי">
+    </div>
+  </div>
+
+  <div class="contact-intro-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="contact-intro-fade" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" style="stop-color:#FBF6F4;stop-opacity:1"></stop>
+          <stop offset="100%" style="stop-color:#FFFFFF;stop-opacity:1"></stop>
+        </linearGradient>
+      </defs>
+      <rect x="0" y="0" width="1200" height="80" fill="url(#contact-intro-fade)"></rect>
+    </svg>
+  </div>
+</section>
+
+<section class="contact-form-section" data-layout-spec="צור קשר-form">
+  <div class="contact-form-container">
+    <div class="contact-form-grid">
+      <!-- Form Column -->
+      <div class="contact-form-card">
+        <div class="contact-form-header">
+          <h2>שלחי לי הודעה</h2>
+          <p class="contact-form-helper">ספרי לי על האירוע שלך, התאריך המועדף, סגנון האיפור שאת חולמת עליו ואת מוזמנת להוסיף כל פרט שיעזור לי להכין את המראה המושלם עבורך.</p>
+        </div>
+        <form class="contact-form" action="#" method="post">
+          <div class="contact-form-field">
+            <label for="contact-name">שם מלא</label>
+            <input type="text" id="contact-name" name="name" required="" placeholder="איך קוראים לך?">
+          </div>
+          <div class="contact-form-field">
+            <label for="contact-email">אימייל</label>
+            <input type="email" id="contact-email" name="email" required="" placeholder="כתובת המייל שלך">
+          </div>
+          <div class="contact-form-field">
+            <label for="contact-phone">טלפון</label>
+            <input type="tel" id="contact-phone" name="phone" required="" placeholder="מספר טלפון ליצירת קשר">
+          </div>
+          <div class="contact-form-field">
+            <label for="contact-message">ההודעה שלך</label>
+            <textarea id="contact-message" name="message" rows="5" required="" placeholder="ספרי לי על האירוע, התאריך, וסגנון האיפור המבוקש"></textarea>
+          </div>
+          <button type="submit" class="contact-form-submit">שלחי הודעה</button>
+        </form>
+      </div>
+
+      <!-- Reassurance Column -->
+      <div class="contact-reassurance-card">
+        <h2>מה קורה אחרי ששולחים?</h2>
+        <p>אני חוזרת לכל פנייה תוך 24 שעות (בימי עבודה). נקבע שיחה קצרה או פגישת ייעוץ אישית כדי להבין בדיוק מה את מחפשת ולתכנן את המראה המושלם לאירוע שלך.</p>
+        <p>אני עובדת בגישה רגועה ומקצועית – כל לקוחה מקבלת את מלוא תשומת הלב, ואני כאן כדי להרגיש אותך בטוחה ויפה ביום המיוחד שלך.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Divider -->
+  <div class="contact-form-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 40" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <line x1="0" y1="20" x2="1200" y2="20" stroke="var(--border-light)" stroke-width="1"></line>
+      <circle cx="600" cy="20" r="4" fill="var(--border-light)"></circle>
+    </svg>
+  </div>
+</section>
+
+<section class="contact-map-section" data-layout-spec="צור קשר-map">
+  <div class="contact-map-container">
+    <div class="contact-map-content">
+      <h2>המיקום שלנו</h2>
+      <p>הסטודיו ממוקם באזור נגיש ונוח, עם חניה בסביבה ותחבורה ציבורית קרובה. המקום מעוצב בקפידה כדי להעניק לך חוויה נעימה ומקצועית בכל ביקור.</p>
+      <p>אנו עובדים על בסיס תיאום מראש בלבד, כך שכל לקוחה מקבלת את מלוא תשומת הלב והזמן המגיע לה. נא לתאם פגישה מראש דרך הטלפון או הוואטסאפ.</p>
+      <p class="contact-map-note"><strong>שימו לב:</strong> הסטודיו פועל לפי תור מראש בלבד. אין כניסה ללא תיאום מוקדם.</p>
+      <div class="contact-map-address-block">
+        <p class="contact-map-address-label">כתובת:</p>
+        <p class="contact-map-address-text">[business_address]</p>
+        <a href="https://maps.google.com/?q=[business_address]" target="_blank" rel="noopener noreferrer" class="btn-map-link">
+          <i class="fas fa-map-marker-alt" data-element-type="icon" data-icon-type="fontawesome"></i>
+          <span>פתחו ב-Google Maps</span>
+        </a>
+      </div>
+    </div>
+    <div class="contact-map-visual">
+      <div class="contact-map-image-wrapper">
+        <img data-placeholder="contact-map-image-1" data-context="A clean, desaturated map-style illustration showing a beauty studio location in Israel, with soft pink and plum accents, minimalist street layout, and a pin marker indicating the studio address. The map should feel calm, elegant, and professional, matching a feminine beauty brand aesthetic." width="600" height="450" src="/assets/site-contact-map-image-1.webp" alt="מפת מיקום סטודיו שירה מזרחי">
+      </div>
+    </div>
+  </div>
+  <div class="contact-map-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,80 L0,50 Q150,45 300,52 T600,48 Q750,52 900,48 T1200,50 L1200,80 Z" fill="var(--bg-dark)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="contact-cta-section" data-layout-spec="צור קשר-cta">
+  <div class="contact-cta-container">
+    <h2 class="contact-cta-heading">בואי נתכנן את המראה שלך</h2>
+    <p class="contact-cta-text">שתפי אותי באירוע המיוחד שלך ובהעדפות שלך, ואדאג ליצור עבורך מראה מושלם שמתאים בדיוק לך ולסגנון שלך.</p>
+    <a href="#contact-form" class="contact-cta-button">שלחי את ההודעה שלך</a>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer"><div class="footer-container"><div class="footer-grid"><div class="footer-section footer-about"><img src="/assets/logo.webp" alt="שירה מזרחי" class="logo" /><p class="footer-description">מומחית ליופי וקוסמטיקה, מעניקה טיפולים מקצועיים ושירות אישי ומסור.</p></div><div class="footer-section footer-links"><h3 class="footer-title">קישורים מהירים</h3><ul class="footer-menu"><li><a href="/services">שירותים</a></li><li><a href="/about">אודות</a></li><li><a href="/contact">צור קשר</a></li></ul></div><div class="footer-section footer-contact"><h3 class="footer-title">יצירת קשר</h3><ul class="contact-list"><li><i class="fas fa-envelope"></i><a href="mailto:[business_email]">[business_email]</a></li><li><i class="fas fa-phone"></i><a href="tel:[business_phone]">[business_phone]</a></li><li><a href="/"><i class="fas fa-map-marker-alt"></i><span>[business_address]</span></a></li></ul></div><div class="footer-section footer-social"><h3 class="footer-title">עקבו אחרינו</h3><div class="social-links"><a href="[facebook_handle]" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a><a href="[instagram_handle]" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="[whatsapp_handle]" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a></div></div></div><div class="footer-bottom"><div class="footer-legal"><a href="/privacy">Privacy Policy</a><span class="separator">|</span><a href="/terms">Terms &amp; Conditions</a><span class="separator">|</span><a href="/accessibility">Accessibility</a></div><div class="footer-copyright"><p>© 2026 שירה מזרחי. All rights reserved.</p><a href="https://zappy5.com" target="_blank" class="zappy-attribution">Generated by Zappy</a></div></div></div></footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <script src="/script.js"></script>
+
+    <div data-integration="accessibility:toolbar"></div>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body></html>

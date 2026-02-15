@@ -1,0 +1,570 @@
+<!DOCTYPE html><html lang="he" dir="rtl"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>אודות - שירה מזרחי</title>
+  <meta name="description" content="אודות - שירה מזרחי provides professional יופי וקוסמטיקה services. Specializing in שירה מזרחי.">
+  <meta name="keywords" content="שירה מזרחי, מאפרת לאירועים לנשים דתיות, איפור ערב צנוע, איפור פורים יצירתי לנשים">
+  <meta name="robots" content="index, follow">
+  
+  <meta property="og:title" content="אודות - שירה מזרחי">
+  <meta property="og:description" content="אודות - שירה מזרחי provides professional יופי וקוסמטיקה services. Specializing in שירה מזרחי.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="he_IL">
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="אודות - שירה מזרחי">
+  <meta name="twitter:description" content="אודות - שירה מזרחי provides professional יופי וקוסמטיקה services. Specializing in שירה מזרחי.">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48x48.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/assets/favicon-512x512.png">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- Cookie Consent -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.css" />
+    <script src="https://cdn.jsdelivr.net/npm/vanilla-cookieconsent@3/dist/cookieconsent.umd.js"></script>
+    <!-- Mickidum Accessibility Toolbar -->
+    <script src="https://cdn.jsdelivr.net/gh/mickidum/acc_toolbar/acctoolbar/acctoolbar.min.js"></script>
+<!-- Zappy Analytics -->
+<script>
+(function() {
+  'use strict';
+  
+  // Configuration
+  var config = {
+    websiteId: 'df56048e-6dfc-4ba8-9edd-0cde6d59bdec',
+    apiUrl: 'https://api.zappy5.com/api/analytics/track',
+    sessionDuration: 30 * 60 * 1000, // 30 minutes
+    visitorDuration: 30 * 24 * 60 * 60 * 1000, // 30 days
+    trackPageViews: true,
+    trackClicks: true,
+    trackFormSubmissions: true
+  };
+  
+  // Generate or retrieve persistent visitor ID (30 days)
+  function getVisitorId() {
+    var visitorKey = 'zappy_visitor_' + config.websiteId;
+    var visitor = null;
+    
+    try {
+      visitor = localStorage.getItem(visitorKey);
+      if (visitor) {
+        var visitorData = JSON.parse(visitor);
+        var now = Date.now();
+        
+        // Check if visitor ID is still valid (30 days)
+        if (now - visitorData.created < config.visitorDuration) {
+          // Update last seen timestamp
+          visitorData.lastSeen = now;
+          localStorage.setItem(visitorKey, JSON.stringify(visitorData));
+          return visitorData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: LocalStorage not available');
+    }
+    
+    // Generate new visitor ID
+    var newVisitorId = 'zv_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      localStorage.setItem(visitorKey, JSON.stringify({
+        id: newVisitorId,
+        created: Date.now(),
+        lastSeen: Date.now()
+      }));
+    } catch (e) {
+      // Continue without local storage
+    }
+    
+    return newVisitorId;
+  }
+  
+  // Generate or retrieve session ID (30 minutes)
+  function getSessionId() {
+    var sessionKey = 'zappy_session_' + config.websiteId;
+    var session = null;
+    
+    try {
+      session = sessionStorage.getItem(sessionKey);
+      if (session) {
+        var sessionData = JSON.parse(session);
+        var now = Date.now();
+        
+        // Check if session is still valid
+        if (now - sessionData.timestamp < config.sessionDuration) {
+          // Update timestamp
+          sessionData.timestamp = now;
+          sessionStorage.setItem(sessionKey, JSON.stringify(sessionData));
+          return sessionData.id;
+        }
+      }
+    } catch (e) {
+      console.warn('Zappy Analytics: SessionStorage not available');
+    }
+    
+    // Generate new session ID
+    var newSessionId = 'zs_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    
+    try {
+      sessionStorage.setItem(sessionKey, JSON.stringify({
+        id: newSessionId,
+        timestamp: Date.now()
+      }));
+    } catch (e) {
+      // Continue without session storage
+    }
+    
+    return newSessionId;
+  }
+  
+  var visitorId = getVisitorId();
+  var sessionId = getSessionId();
+  
+  // Track an event
+  function trackEvent(eventType, data) {
+    data = data || {};
+    
+    var eventData = {
+      website_id: config.websiteId,
+      event_type: eventType,
+      page_path: window.location.pathname,
+      referrer: document.referrer || 'direct',
+      visitor_id: visitorId,
+      session_id: sessionId,
+      metadata: data
+    };
+    
+    // Use sendBeacon if available (better for page unload events)
+    if (navigator.sendBeacon) {
+      var blob = new Blob([JSON.stringify(eventData)], { type: 'application/json' });
+      navigator.sendBeacon(config.apiUrl, blob);
+    } else {
+      // Fallback to fetch
+      fetch(config.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(eventData),
+        keepalive: true
+      }).catch(function(error) {
+        console.warn('Zappy Analytics: Failed to track event', error);
+      });
+    }
+  }
+  
+  // Track page view
+  if (config.trackPageViews) {
+    trackEvent('pageview', {
+      title: document.title,
+      url: window.location.href
+    });
+  }
+  
+  // Track clicks on important elements
+  if (config.trackClicks) {
+    document.addEventListener('click', function(e) {
+      var target = e.target;
+      
+      // Track button clicks (counted as actions)
+      if (target.tagName === 'BUTTON' || target.closest('button')) {
+        var button = target.tagName === 'BUTTON' ? target : target.closest('button');
+        trackEvent('click', {
+          element: 'button',
+          text: button.textContent.trim().substring(0, 100),
+          id: button.id || null,
+          class: button.className || null
+        });
+      }
+      
+      // Track link clicks (navigation - not counted as actions)
+      else if (target.tagName === 'A' || target.closest('a')) {
+        var link = target.tagName === 'A' ? target : target.closest('a');
+        trackEvent('navigation', {
+          element: 'link',
+          text: link.textContent.trim().substring(0, 100),
+          href: link.href,
+          external: link.hostname !== window.location.hostname
+        });
+      }
+    }, true);
+  }
+  
+  // Track form submissions
+  if (config.trackFormSubmissions) {
+    document.addEventListener('submit', function(e) {
+      var form = e.target;
+      
+      trackEvent('form_submit', {
+        form_id: form.id || null,
+        form_name: form.name || null,
+        form_action: form.action || null,
+        form_method: form.method || 'GET'
+      });
+    }, true);
+  }
+  
+  // Track time on page (send on page unload)
+  var pageLoadTime = Date.now();
+  
+  window.addEventListener('beforeunload', function() {
+    var timeOnPage = Math.floor((Date.now() - pageLoadTime) / 1000); // in seconds
+    
+    trackEvent('page_unload', {
+      time_on_page: timeOnPage,
+      page_path: window.location.pathname
+    });
+  });
+  
+  // Expose tracking function globally for custom events
+  window.zappyAnalytics = {
+    track: trackEvent,
+    getVisitorId: function() { return visitorId; },
+    getSessionId: function() { return sessionId; }
+  };
+  
+})();
+</script>
+<!-- End Zappy Analytics -->
+
+    <style id="zappy-dropdown-submenu-styles">
+      /* ========== DESKTOP DROPDOWN SUBMENU STYLES ========== */
+      /* Base styles for dropdown submenus - parent must be positioned */
+      .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { position: relative; }
+      /* Submenu base - hidden by default */
+      .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { display: block !important; position: absolute !important; top: 100%; left: 0; min-width: 220px; background: white; border-radius: 8px; box-shadow: 0 8px 25px rgba(0,0,0,0.15); padding: 8px 0; opacity: 0; visibility: hidden; transform: translateY(10px); transition: all 0.3s ease; z-index: 1000; list-style: none; pointer-events: none; }
+      /* CRITICAL: Desktop hover styles to show dropdown */
+      .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Submenu item styling */
+      .sub-menu li { list-style: none; margin: 0; padding: 0; }
+      .sub-menu a { display: block !important; padding: 10px 16px !important; color: #333 !important; font-weight: 500; text-decoration: none; white-space: nowrap; transition: background-color 0.2s; }
+      .sub-menu a:hover { background-color: #f5f5f5; }
+      /* RTL (Hebrew/Arabic) dropdown positioning */
+      [dir="rtl"] .nav-menu .sub-menu, [dir="rtl"] nav .sub-menu, [dir="rtl"] .navbar .sub-menu, html[lang="he"] .nav-menu .sub-menu, html[lang="he"] nav .sub-menu, html[lang="he"] .navbar .sub-menu, html[lang="ar"] .nav-menu .sub-menu, html[lang="ar"] nav .sub-menu, html[lang="ar"] .navbar .sub-menu { left: auto !important; right: 0 !important; }
+      /* Hide empty dropdown menus */
+      .sub-menu:empty, .sub-menu:not(:has(li:not(.zappy-hidden-menu-item))), .sub-menu:not(:has(li)) { display: none !important; opacity: 0 !important; visibility: hidden !important; pointer-events: none !important; }
+      /* Desktop: show submenu on Menu Group hover */
+      li:has(.menu-group-title):hover > .sub-menu { opacity: 1 !important; visibility: visible !important; transform: translateY(0) !important; pointer-events: auto !important; }
+      /* Menu Group title styling */
+      .nav-menu > li > .menu-group-title, #navMenu > li > .menu-group-title { display: inline-block; padding: 0.5rem 1rem; cursor: default; user-select: none; }
+      
+      /* ========== MOBILE SUBMENU STYLES ========== */
+      @media (max-width: 768px) {
+        .nav-menu .sub-menu, nav .sub-menu, .navbar .sub-menu, #navMenu .sub-menu { position: static !important; transform: none !important; box-shadow: none !important; background: transparent !important; max-height: 0; overflow: hidden; opacity: 0; visibility: hidden; transition: max-height 0.3s ease, opacity 0.3s ease; padding: 0 !important; border-radius: 0 !important; }
+        .sub-menu.mobile-expanded { max-height: 500px !important; opacity: 1 !important; visibility: visible !important; padding: 8px 0 8px 16px !important; }
+        [dir="rtl"] .sub-menu.mobile-expanded, html[lang="he"] .sub-menu.mobile-expanded { padding: 8px 16px 8px 0 !important; }
+        /* Disable hover behavior on mobile */
+        .nav-menu li:hover > .sub-menu, nav li:hover > .sub-menu, .navbar li:hover > .sub-menu, #navMenu li:hover > .sub-menu { opacity: 0; visibility: hidden; pointer-events: none; }
+        .nav-menu li > .sub-menu.mobile-expanded, nav li > .sub-menu.mobile-expanded, .navbar li > .sub-menu.mobile-expanded, #navMenu li > .sub-menu.mobile-expanded { opacity: 1 !important; visibility: visible !important; pointer-events: auto !important; }
+        .nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu) { display: flex !important; flex-wrap: wrap !important; align-items: center !important; }
+        .nav-menu li:has(.sub-menu) > a, nav li:has(.sub-menu) > a, .navbar li:has(.sub-menu) > a, #navMenu li:has(.sub-menu) > a { flex: 1 !important; }
+        .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: 44px !important; background: transparent !important; border: none !important; cursor: pointer !important; }
+        .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
+        .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
+        .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
+        .sub-menu a { padding: 10px 0 !important; display: block !important; }
+        .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; }
+      }
+      @media (min-width: 769px) { .mobile-submenu-toggle { display: none !important; } }
+    </style>
+</head>
+<body>
+  <nav class="navbar" dir="rtl">
+  <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
+    <svg class="hamburger-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M3 12h18M3 6h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+    <svg class="close-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" style="display:none;">
+      <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+  </button>
+  
+  <button class="phone-header-btn" aria-label="Call">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+    </svg>
+  </button>
+  
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="logo-link">
+        <img src="/assets/logo.webp" alt="שירה מזרחי" class="logo" />
+      </a>
+    </div>
+    
+    <ul class="nav-menu" id="navMenu"><li><a href="/services">שירותים</a></li><li><a href="/about">אודות</a></li></ul>
+    
+    <div class="nav-cta-container">
+      <a href="/contact" class="nav-cta-btn">צור קשר</a>
+    </div>
+  </div>
+</nav>
+  
+  <main>
+    <section class="about-story-section" data-layout-spec="אודות-story">
+  <div class="about-story-container">
+    <div class="about-story-content">
+      <h1>הסטודיו שלי</h1>
+      <p>הקמתי את הסטודיו מתוך אהבה עמוקה לאומנות האיפור ורצון להעניק לכל אישה את התחושה שהיא יפה בדיוק כפי שהיא. עם הכשרה מקצועית מעמיקה ושנים של ניסיון, אני מתמחה באיפור שמדגיש את היופי הטבעי ומכבד את הערכים והסגנון האישי של כל לקוחה.</p>
+      <p>הסטודיו שלי הוא מרחב שקט ומסודר, שבו כל פרט תוכנן כדי ליצור חוויה נעימה ומרגיעה. אני מאמינה שאיפור טוב מתחיל בהקשבה אמיתית – הבנת הציפיות, הסגנון והאירוע המיוחד שלך. בין אם מדובר באירוע משפחתי, חתונה, פורים או ערב מיוחד, אני כאן כדי להבטיח שתרגישי בטוחה, יפה ומוכנה לזרוח.</p>
+      <p>העבודה שלי משלבת טכניקות מתקדמות עם תשומת לב לפרטים הקטנים – מבחירת הגוונים המושלמים ועד לעמידות האיפור לאורך כל האירוע. אני גאה להעניק שירות אישי, מכבד וצנוע שמתאים לכל אישה, ללא קשר לרקע או לסגנון חיים.</p>
+    </div>
+    <div class="about-story-imagery">
+      <div class="about-story-image-wrapper">
+        <img data-placeholder="about-story-image-1" data-context="A warm, inviting beauty studio interior for a professional makeup artist in Israel. Show a clean, organized makeup station with soft natural lighting, elegant mirrors, comfortable seating, and high-quality cosmetics neatly arranged. The atmosphere should feel calm, professional, and welcoming to religious and general audiences. Soft pink and cream tones, modern yet modest aesthetic. No people in frame, focus on the serene studio environment." width="500" height="700" src="/assets/site-about-story-image-1.webp" alt="הסטודיו המקצועי של שירה מזרחי לאיפור">
+        <div class="about-story-backplate" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+  <div class="about-story-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,60 L0,28 Q15,26 30,29 Q45,32 60,28 Q75,24 90,27 Q105,30 120,26 Q135,22 150,25 Q165,28 180,24 Q195,20 210,23 Q225,26 240,22 Q255,18 270,21 Q285,24 300,20 Q315,16 330,19 Q345,22 360,18 Q375,14 390,17 Q405,20 420,16 Q435,12 450,15 Q465,18 480,14 Q495,10 510,13 Q525,16 540,12 Q555,8 570,11 Q585,14 600,10 Q615,6 630,9 Q645,12 660,8 Q675,4 690,7 Q705,10 720,6 Q735,2 750,5 Q765,8 780,4 Q795,0 810,3 Q825,6 840,2 Q855,0 870,1 Q885,4 900,0 Q915,0 930,1 Q945,4 960,0 Q975,0 990,1 Q1005,4 1020,0 Q1035,0 1050,1 Q1065,4 1080,0 Q1095,0 1110,1 Q1125,4 1140,0 Q1155,0 1170,1 Q1185,4 1200,0 L1200,60 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="about-values-section" data-layout-spec="אודות-values">
+  <div class="about-values-container">
+    <div class="about-values-header">
+      <h2>מה שמחכה לך אצלנו</h2>
+      <p>כל טיפול אצל שירה מזרחי נבנה על שלושה עקרונות מרכזיים – מקצועיות ללא פשרות, אווירה נעימה ומכבדת, והתאמה אישית מלאה לצרכים שלך.</p>
+    </div>
+
+    <div class="about-values-grid">
+      <article class="about-values-card">
+        <h3>טכניקה נקייה ומקצועית</h3>
+        <p>עבודה עם מוצרים איכוtiים, כלים מעוקרים וטכניקות מתקדמות שמבטיחות תוצאה מושלמת ובטוחה לכל סוג עור.</p>
+      </article>
+
+      <article class="about-values-card">
+        <h3>נוחות וכבוד</h3>
+        <p>אווירה שקטה ואינטימית, תשומת לב מלאה לרגשות שלך, וצניעות מלאה לאורך כל הטיפול – בין אם מדובר באיפור ערב או בטיפול פנים.</p>
+      </article>
+
+      <article class="about-values-card">
+        <h3>מותאם במיוחד עבורך</h3>
+        <p>לא קיימים שני איפורים זהים. אנחנו לוקחים בחשבון את צורת הפנים, גוון העור, סגנון הלבוש והאירוע – כך שהתוצאה תהיה בדיוק מה שחלמת עליו.</p>
+      </article>
+    </div>
+  </div>
+
+  <div class="about-values-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 2" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="about-values-divider-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#5A2D4E;stop-opacity:1"></stop>
+          <stop offset="67%" style="stop-color:#5A2D4E;stop-opacity:1"></stop>
+          <stop offset="67.1%" style="stop-color:#5A2D4E;stop-"></stop>
+          <stop offset="100%" style="stop-color:#5A2D4E;stop-"></stop>
+        </linearGradient>
+      </defs>
+      <line x1="0" y1="1" x2="800" y2="1" stroke="url(#about-values-divider-gradient)" stroke-width="1"></line>
+      <g stroke="#5A2D4E" stroke-width="1" stroke-dasharray="3,6">
+        <line x1="800" y1="1" x2="1200" y2="1"></line>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section class="about-team-section" data-layout-spec="אודות-team">
+  <div class="about-team-container">
+    <div class="about-team-header">
+      <h2>את מי תפגשי אצלנו</h2>
+      <p>צוות מקצועי ומסור שמאמין באיפור שמדגיש את היופי הטבעי שלך. כל אחת מאיתנו מביאה שנים של ניסיון, תשומת לב לפרטים הקטנים, והרבה אהבה למה שאנחנו עושות.</p>
+    </div>
+
+    <div class="about-team-profiles">
+      <article class="about-team-profile-card">
+        <div class="about-team-profile-image-wrapper">
+          <img data-placeholder="about-team-image-1" data-context="Professional portrait of a female makeup artist in her 30s, warm smile, elegant appearance, wearing professional attire, studio lighting, soft background, beauty and cosmetics industry, Israeli professional, modest and professional styling suitable for religious clientele" width="400" height="500" src="/assets/site-about-team-image-1.webp" alt="שירה מזרחי - מאפרת מקצועית">
+        </div>
+        <div class="about-team-profile-content">
+          <h3>שירה מזרחי<br><span class="about-team-profile-role">מייסדת ומאפרת ראשית</span></h3>
+          <p>עם למעלה מ-12 שנות ניסיון באיפור לאירועים, שירה מתמחה באיפור ערב צנוע ומעודן שמדגיש את היופי הטבעי של כל אישה. בוגרת בית הספר למאפרים מקצועיים, היא מאמינה שאיפור טוב הוא כזה שגורם לך להרגיש הכי יפה שאת יכולה להיות.</p>
+        </div>
+      </article>
+
+      <article class="about-team-profile-card">
+        <div class="about-team-profile-image-wrapper">
+          <img data-placeholder="about-team-image-2" data-context="Professional portrait of a young female makeup artist in her late 20s, friendly smile, modern professional appearance, beauty industry professional, studio lighting, clean background, Israeli makeup artist, modest styling" width="400" height="500" src="/assets/site-about-team-image-2.webp" alt="רונית כהן - מאפרת מקצועית">
+        </div>
+        <div class="about-team-profile-content">
+          <h3>רונית כהן<br><span class="about-team-profile-role">מאפרת בכירה</span></h3>
+          <p>רונית מתמחה באיפור כלות ואיפור פורים יצירתי. עם עין לפרטים וידע עמוק במוצרי קוסמטיקה איכוtiים, היא יוצרת מראה מושלם שמחזיק מעמד לאורך כל האירוע. רונית אוהבת ללוות כל לקוחה בתהליך ולהבין את הציפיות שלה.</p>
+        </div>
+      </article>
+
+      <article class="about-team-profile-card">
+        <div class="about-team-profile-image-wrapper">
+          <img data-placeholder="about-team-image-3" data-context="Professional portrait of a female makeup artist in her early 30s, confident expression, elegant professional styling, beauty and cosmetics professional, studio portrait, soft lighting, Israeli beauty professional, modest and refined appearance" width="400" height="500" src="/assets/site-about-team-image-3.webp" alt="מיכל לוי - מאפרת מקצועית">
+        </div>
+        <div class="about-team-profile-content">
+          <h3>מיכל לוי<br><span class="about-team-profile-role">מאפרת ויועצת קוסמטיקה</span></h3>
+          <p>מיכל משלבת בין איפור מקצועי לייעוץ קוסמטי אישי. היא מאמינה שכל אישה ראויה להרגיש יפה בעור שלה, ומתמחה במציאת המוצרים והטכניקות המתאימות בדיוק לך. עם גישה אישית וסבלנית, מיכל תעזור לך לגלות את הסגנון שלך.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div class="about-team-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,80 L0,45 Q100,35 200,42 T400,38 Q500,45 600,40 T800,42 Q900,38 1000,45 T1200,40 L1200,80 Z" fill="var(--bg-light)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="about-showcase-section" data-layout-spec="אודות-showcase">
+  <div class="about-showcase-container">
+    <div class="about-showcase-header">
+      <h2>מרחב שקט, מעוצב עבור מיקוד</h2>
+      <p>הסטודיו שלי נבנה מתוך אהבה לפרטים הקטנים – כל כלי עבודה עובר חיטוי יסודי, המרחב מואר באור טבעי ומעוצב בצבעי ניוד רכים שמזמינים רוגע ובטחון. כאן, כל אישה יכולה להרגיש בנוח ולהתמקד בחוויה של יופי אמיתי.</p>
+    </div>
+
+    <div class="about-showcase-gallery">
+      <div class="about-showcase-gallery-item">
+        <img data-placeholder="about-showcase-image-1" data-context="Clean minimalist makeup studio table with organized cosmetic products, brushes in holders, neutral beige and white color palette, natural daylight, professional beauty workspace for religious women, soft feminine aesthetic" width="600" height="400" src="/assets/site-about-showcase-image-1.webp" alt="שולחן איפור מסודר בסטודיו">
+      </div>
+      <div class="about-showcase-gallery-item">
+        <img data-placeholder="about-showcase-image-2" data-context="Professional makeup brushes arranged neatly in a clean holder, soft natural light, neutral tones, beauty studio setup, hygienic organized workspace" width="600" height="400" src="/assets/site-about-showcase-image-2.webp" alt="מברשות איפור מקצועיות מסודרות">
+      </div>
+      <div class="about-showcase-gallery-item">
+        <img data-placeholder="about-showcase-image-3" data-context="Sanitized makeup tools and cosmetic products on white clean surface, professional beauty hygiene, organized workspace, soft feminine aesthetic" width="600" height="400" src="/assets/site-about-showcase-image-3.webp" alt="כלי עבודה מחוטאים ומוכנים">
+      </div>
+      <div class="about-showcase-gallery-item">
+        <img data-placeholder="about-showcase-image-4" data-context="Neutral color palette of makeup products, beige and soft pink tones, organized cosmetic display, professional beauty studio aesthetic" width="600" height="400" src="/assets/site-about-showcase-image-4.webp" alt="פלטת צבעים ניטרלית ורכה">
+      </div>
+      <div class="about-showcase-gallery-item">
+        <img data-placeholder="about-showcase-image-5" data-context="Natural light corner in beauty studio, soft window lighting, minimalist clean workspace, peaceful atmosphere for makeup application" width="600" height="400" src="/assets/site-about-showcase-image-5.webp" alt="פינת אור טבעי בסטודיו">
+      </div>
+      <div class="about-showcase-gallery-item">
+        <img data-placeholder="about-showcase-image-6" data-context="Professional makeup finishing spray and detail tools on clean surface, beauty studio final touches, organized workspace aesthetic" width="600" height="400" src="/assets/site-about-showcase-image-6.webp" alt="ספריי גימור וכלי עבודה לפרטים">
+      </div>
+    </div>
+
+    <div class="about-showcase-footer">
+      <p>מוזמנות ליצור קשר לבדיקת זמינות ולתיאום פגישה אישית. אשמח לארח אתכן במרחב שנועד במיוחד עבורכן.</p>
+    </div>
+  </div>
+
+  <div class="about-showcase-divider-wrapper">
+    <svg data-no-icon-edit="true" aria-hidden="true" viewBox="0 0 1200 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="showcase-divider-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#E8A4B8;stop-opacity:0.4"></stop>
+          <stop offset="50%" style="stop-color:#F3EAEA;stop-opacity:0.7"></stop>
+          <stop offset="100%" style="stop-color:#FBF6F4;stop-opacity:0.95"></stop>
+        </linearGradient>
+      </defs>
+      <path d="M0,80 L0,35 Q100,38 200,32 T400,35 Q500,32 600,38 T800,32 Q900,35 1000,30 T1200,25 L1200,80 Z" fill="url(#showcase-divider-gradient)"></path>
+    </svg>
+  </div>
+</section>
+
+<section class="about-credentials-section" data-layout-spec="אודות-credentials">
+  <div class="about-credentials-container">
+    <div class="about-credentials-content">
+      <div class="about-credentials-text">
+        <h2>מקצועית, עקבית, אמינה</h2>
+        <p>כל טיפול מתבצע בסטנדרטים הגבוהים ביותר, עם תשומת לב לפרטים הקטנים שעושים את ההבדל. אני מאמינה שאיפור איכותי מתחיל בגישה מקצועית ומסורה.</p>
+        
+        <div class="about-credentials-highlights">
+          <div class="about-credentials-item">
+            <h3>תקני היגיינה</h3>
+            <p>שימוש בכלים מעוקרים, מוצרים אישיים חד-פעמיים וסביבת עבודה נקייה ומאווררת. כל פגישה מתחילה בהכנה קפדנית.</p>
+          </div>
+          
+          <div class="about-credentials-item">
+            <h3>מוצרים ידידותיים לעור</h3>
+            <p>עבודה עם מותגים מובילים המותאמים לסוגי עור שונים, כולל עור רגיש. בדיקת אלרגיות וייעוץ אישי לפני כל טיפול.</p>
+          </div>
+          
+          <div class="about-credentials-item">
+            <h3>זרימת עבודה רגועה ובזמן</h3>
+            <p>אני שומרת על לוח זמנים מדויק ומאפשרת זמן נדיב לכל לקוחה. ללא לחץ, ללא ממהרים - רק תשומת לב מלאה.</p>
+          </div>
+          
+          <div class="about-credentials-item">
+            <h3>גימור טבעי ופוטוגני</h3>
+            <p>האיפור נבנה בשכבות עדינות למראה מושלם גם בתמונות וגם במציאות. טכניקות מתקדמות שמחזיקות לאורך זמן.</p>
+          </div>
+        </div>
+        
+        <a href="/contact" class="btn-primary">צרי קשר עם הסטודיו</a>
+      </div>
+      
+      <div class="about-credentials-image-wrapper">
+        <img data-placeholder="about-credentials-image-1" data-context="Professional beauty and cosmetics workspace for שירה מזרחי - neatly arranged makeup brushes, palettes, and professional cosmetic products on a clean white surface, certificates or professional tools visible, soft natural lighting, minimal and organized aesthetic, no readable personal information, high-end beauty studio atmosphere" width="600" height="700" src="/assets/site-about-credentials-image-1.webp" alt="סביבת עבודה מקצועית ומאורגנת">
+      </div>
+    </div>
+  </div>
+</section>
+  </main>
+  
+  <footer class="site-footer"><div class="footer-container"><div class="footer-grid"><div class="footer-section footer-about"><img src="/assets/logo.webp" alt="שירה מזרחי" class="logo" /><p class="footer-description">מומחית ליופי וקוסמטיקה, מעניקה טיפולים מקצועיים ושירות אישי ומסור.</p></div><div class="footer-section footer-links"><h3 class="footer-title">קישורים מהירים</h3><ul class="footer-menu"><li><a href="/services">שירותים</a></li><li><a href="/about">אודות</a></li><li><a href="/contact">צור קשר</a></li></ul></div><div class="footer-section footer-contact"><h3 class="footer-title">יצירת קשר</h3><ul class="contact-list"><li><i class="fas fa-envelope"></i><a href="mailto:[business_email]">[business_email]</a></li><li><i class="fas fa-phone"></i><a href="tel:[business_phone]">[business_phone]</a></li><li><a href="/"><i class="fas fa-map-marker-alt"></i><span>[business_address]</span></a></li></ul></div><div class="footer-section footer-social"><h3 class="footer-title">עקבו אחרינו</h3><div class="social-links"><a href="[facebook_handle]" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a><a href="[instagram_handle]" aria-label="Instagram"><i class="fab fa-instagram"></i></a><a href="[whatsapp_handle]" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a></div></div></div><div class="footer-bottom"><div class="footer-legal"><a href="/privacy">Privacy Policy</a><span class="separator">|</span><a href="/terms">Terms &amp; Conditions</a><span class="separator">|</span><a href="/accessibility">Accessibility</a></div><div class="footer-copyright"><p>© 2026 שירה מזרחי. All rights reserved.</p><a href="https://zappy5.com" target="_blank" class="zappy-attribution">Generated by Zappy</a></div></div></div></footer>
+  
+  <a href="https://wa.me/[whatsapp_handle]" class="whatsapp-float" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  
+  <script src="/script.js"></script>
+
+    <div data-integration="accessibility:toolbar"></div>
+
+    <script id="zappy-mobile-submenu-script">
+    (function() {
+      function initMobileSubmenuToggles() {
+        if (window.innerWidth > 768) {
+          document.querySelectorAll('.mobile-submenu-toggle').forEach(function(btn) { btn.remove(); });
+          document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) { menu.classList.remove('mobile-expanded'); });
+          return;
+        }
+        var items = document.querySelectorAll('.nav-menu li:has(.sub-menu), nav li:has(.sub-menu), .navbar li:has(.sub-menu), #navMenu li:has(.sub-menu)');
+        items.forEach(function(li) {
+          if (li.querySelector('.mobile-submenu-toggle')) return;
+          var submenu = li.querySelector('.sub-menu');
+          var parentLink = li.querySelector(':scope > a');
+          if (!submenu || !parentLink) return;
+          var toggleBtn = document.createElement('button');
+          toggleBtn.className = 'mobile-submenu-toggle';
+          toggleBtn.setAttribute('aria-label', 'Toggle submenu');
+          toggleBtn.setAttribute('type', 'button');
+          parentLink.insertAdjacentElement('afterend', toggleBtn);
+          toggleBtn.addEventListener('click', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            document.querySelectorAll('.sub-menu.mobile-expanded').forEach(function(menu) {
+              if (menu !== submenu) { menu.classList.remove('mobile-expanded'); var t = menu.parentElement.querySelector('.mobile-submenu-toggle'); if(t) t.classList.remove('expanded'); }
+            });
+            submenu.classList.toggle('mobile-expanded');
+            toggleBtn.classList.toggle('expanded');
+          });
+        });
+      }
+      if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', initMobileSubmenuToggles); }
+      else { initMobileSubmenuToggles(); }
+      var resizeTimer; window.addEventListener('resize', function() { clearTimeout(resizeTimer); resizeTimer = setTimeout(initMobileSubmenuToggles, 250); });
+      // Re-initialize when mobile menu becomes visible (MutationObserver)
+      var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.type === 'attributes') {
+            var target = mutation.target;
+            if (target.classList && (target.classList.contains('active') || target.classList.contains('open'))) {
+              setTimeout(initMobileSubmenuToggles, 100);
+            }
+          }
+        });
+      });
+      setTimeout(function() {
+        document.querySelectorAll('.mobile-menu, .nav-menu, #navMenu, nav').forEach(function(menu) {
+          observer.observe(menu, { attributes: true, attributeFilter: ['class', 'style'] });
+        });
+      }, 500);
+    })();
+    </script>
+</body></html>
